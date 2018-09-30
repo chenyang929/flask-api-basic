@@ -1,6 +1,5 @@
 from .app import Flask
 from app.models.mongo import mongo
-from app.settings import get_args
 
 
 def register_blueprints(app):
@@ -13,10 +12,9 @@ def register_plugin(app):
 
 
 def create_app():
-    flask_app = Flask(__name__)
-    args = get_args()
-    flask_app.config.from_object(args)
-    register_blueprints(flask_app)
-    register_plugin(flask_app)
+    app = Flask(__name__)
+    app.config.from_object("app.config.setting")
+    register_blueprints(app)
+    register_plugin(app)
 
-    return flask_app
+    return app

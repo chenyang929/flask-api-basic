@@ -13,6 +13,7 @@ pyyaml = "*"
 pandas = "*"
 xlrd = "*"
 pendulum = "*"
+pytest = "*"
 
 [dev-packages]
 

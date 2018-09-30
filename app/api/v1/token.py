@@ -31,7 +31,7 @@ def _verify_user_info(form):
 
 
 @api.route('/secret', methods=['POST'])
-def get_token_info():
+def verify_token():
     """验证令牌信息"""
     form = TokenForm().validate_for_api()
     s = Serializer(current_app.config['SECRET_KEY'])

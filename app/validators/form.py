@@ -21,7 +21,7 @@ class BaseForm(Form):
 
 
 class ClientForm(BaseForm):
-    account = StringField(validators=[DataRequired(message='不允许为空'), length(min=5, max=32)])
+    account = StringField(validators=[DataRequired(), length(min=5, max=32)])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 
@@ -34,19 +34,19 @@ class ClientForm(BaseForm):
 
 
 class UserEmailForm(ClientForm):
-    account = StringField(validators=[Email(message='无效的邮箱')])
+    account = StringField(validators=[Email(message='invalid email')])
     secret = StringField(validators=[DataRequired(), Regexp(r'^[A-Za-z0-9_*&$#@]{6,22}$')])
     nickname = StringField(validators=[DataRequired(), length(min=2, max=22)])
 
     def validate_account(self, value):
         if mongo.db.user.find_one({'email': value.data}):
-            raise ValidationError(message='邮箱已被注册')
+            raise ValidationError(message='used email')
 
     def validate_nickname(self, value):
         if mongo.db.user.find_one({'nickname': value.data}):
-            raise ValidationError(message='昵称已被注册')
+            raise ValidationError(message='used nickname')
 
 
 class TokenForm(BaseForm):
-    token = StringField(validators=[DataRequired(message='不允许为空')])
+    token = StringField(validators=[DataRequired()])
 

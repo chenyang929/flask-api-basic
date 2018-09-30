@@ -1,4 +1,3 @@
-import sys
 import logging.config
 import os
 import yaml
@@ -6,9 +5,8 @@ from app import create_app
 from app.libs.error import APIException
 from werkzeug.exceptions import HTTPException
 from app.libs.error import ServerError
+from app.config.args import get_args
 
-
-mode = sys.argv[1] if len(sys.argv) == 2 else 'development'
 app = create_app()
 
 
@@ -42,4 +40,5 @@ def setup_logging(default_path="logging.yaml", default_level=logging.INFO):
 
 if __name__ == '__main__':
     setup_logging()
+    app.config.from_object(get_args())  # 在create_app中调用，会和pytest命令行冲突
     app.run(host=app.config['HOST'], port=app.config['PORT'])
